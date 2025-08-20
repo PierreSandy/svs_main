@@ -37,11 +37,7 @@ def disp_menu():
 
 
 # ------------ This is the main program ------------------------
-
-
-
 def pay_invoice():
-    # Function to pay an invoice
     invoice_id = input("Enter the invoice ID to pay: ")
     
     if invoice_id not in db_customers:
@@ -49,7 +45,6 @@ def pay_invoice():
         return
     
     customer = db_customers[invoice_id]
-    
     if "invoice" not in customer or customer["invoice"]["paid"]:
         print("This invoice has already been paid or does not exist.")
         return
@@ -94,7 +89,7 @@ def invoices_to_pay():
 
 
 # List Functions for Customers, Services, and Treatments
-# These functions will display the respective lists in a formatted manner
+
 
 def list_customers():
     display_list = []
