@@ -9,13 +9,7 @@ from svs_data import col_invoices,col_customers,col_treatments,col_services,db_c
 import datetime     # We areusing date times for this assessment, and it is
                     # available in the column_output() fn, so do not delete this line
 
-
-
-def add_customer():
-    # Add a customer to the db_customers database, use the unique_id to get an id for the customer.
-    # Remember to add all required dictionaries.
-
-    pass  # REMOVE this line once yourts have some function code (a function must have one line of code, so this temporary line keeps Python happy so you can run the code)
+ # REMOVE this line once yourts have some function code (a function must have one line of code, so this temporary line keeps Python happy so you can run the code)
 
 def add_booking():
     # Add a booking to a customer
@@ -37,13 +31,35 @@ def disp_menu():
 
 
 # ------------ This is the main program ------------------------
-def pay_invoice():
-    invoice_id = input("Enter the invoice ID to pay: ")
+
+def add_customer():
+    # Function to add a new customer to the database
+    customer_id = unique_id()
+    name = input("Enter customer's name: ")
+    telephone = input("Enter customer's telephone: ")
+    email = input("Enter customer's email: ")
+
+    # Create a new customer entry
+    db_customers[customer_id] = {
+        "details": [name, telephone, email],
+        "bookings": [],
+        "invoice": None
+    }
     
+    print(f"Customer {name} has been added with ID {customer_id}.")
+    input("\nPress Enter to continue.")
+
+
+# Function to pay an invoice
+def pay_invoice():
+    invoice_id = input("Enter the Invoice ID to pay: ")
+    
+    # Check if the invoice ID exists in the database
     if invoice_id not in db_customers:
-        print("Invalid invoice ID.")
+        print("Invalid Invoice ID.")
         return
     
+    # Check if the invoice exists and is unpaid
     customer = db_customers[invoice_id]
     if "invoice" not in customer or customer["invoice"]["paid"]:
         print("This invoice has already been paid or does not exist.")
@@ -55,13 +71,17 @@ def pay_invoice():
     
     input("\nPress Enter to continue.")
 
+# Function to display unpaid invoices
 def invoices_to_pay():
+
+    # Display a list of unpaid invoices
     display_list = []
     for invoice in db_customers.keys():
         customer = db_customers[invoice]
+
+        # Check if the customer has an invoice and if it is unpaid
         if "invoice" not in customer:
-            continue
-            
+            continue    
         try:
             if not customer ["invoice"]["paid"]:
                 display_list.append({
@@ -70,6 +90,7 @@ def invoices_to_pay():
                         "amount": customer["invoice"]["amount"],
                         "due_date": customer["invoice"]["due_date"]                
                     })
+        # Handle case where invoice data might be missing
         except KeyError:
             print(f"Invalid invoice data for {invoice} ")
 
@@ -89,8 +110,6 @@ def invoices_to_pay():
 
 
 # List Functions for Customers, Services, and Treatments
-
-
 def list_customers():
     display_list = []
     for customer_id, customer in db_customers.items():
@@ -127,6 +146,7 @@ def list_services():
         row = (row['id'], row['name'], f"{row['cost']:.2f}")
         display_formatted_row(row, format_columns)
 
+# Check if there are any services to display
     if not db_services:
         print("\nNo services available.")
         return
@@ -152,8 +172,7 @@ def list_treatments():
     
     input("\nPress Enter to continue.") 
 
-# Main function to run the program
-# This function will display the menu and handle user input
+# Main function to run the program also this function will display the menu and handle user input
 
 def main():
     disp_menu()
@@ -180,6 +199,7 @@ def main():
         print("")
         disp_menu()
         response = input("Please enter menu choice: ")
+
 
 if __name__ == "__main__":
     main()
