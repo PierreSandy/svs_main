@@ -11,11 +11,6 @@ import datetime     # We areusing date times for this assessment, and it is
 
  # REMOVE this line once yourts have some function code (a function must have one line of code, so this temporary line keeps Python happy so you can run the code)
 
-def add_booking():
-    # Add a booking to a customer
-    # Remember to validate treatment and service ids
-    pass  # REMOVE this line once you have some function code (a function must have one line of code, so this temporary line keeps Python happy so you can run the code)
-
 
 # function to display the menu
 def disp_menu():
@@ -32,21 +27,60 @@ def disp_menu():
 
 # ------------ This is the main program ------------------------
 
+def add_booking():
+    # Function to add a booking to a customer
+    customer_id = input("Enter Customer ID: ")
+    
+    # Check if the customer exists
+    if customer_id not in db_customers:
+        print("Invalid Customer ID.")
+        return
+    
+    # Get the customer's details
+    customer = db_customers[customer_id]
+    
+    # Get treatment and service details
+    treatment_id = input("Enter Treatment ID: ")
+    service_id = input("Enter Service ID: ")
+
+    # Validate treatment and service IDs
+    if treatment_id not in db_treatments or service_id not in db_services:
+        print("Invalid Treatment or Service ID.")
+        return
+
+    # Create a booking entry
+    booking = {
+        "treatment": db_treatments[treatment_id],
+        "service": db_services[service_id],
+        "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    
+    # Add booking to the customer's bookings list
+    customer["bookings"].append(booking)
+    
+    print(f"Booking added for Customer ID {customer_id}.")
+    input("\nPress Enter to continue.")
+
 def add_customer():
     # Function to add a new customer to the database
     customer_id = unique_id()
-    name = input("Enter customer's name: ")
-    telephone = input("Enter customer's telephone: ")
-    email = input("Enter customer's email: ")
+    firstname = input("Enter Customer's First Name: ")
+    lastname = input("Enter Customer's Last Name: ")
+    while True:
+        telephone = input("Enter Customer's Telephone Number: ")
+        if telephone.isdigit():
+            break
+        print("Error: please enter a valid phone number")
+    email = input("Enter Customer's Email Address: ")
 
     # Create a new customer entry
     db_customers[customer_id] = {
-        "details": [name, telephone, email],
+        "details": [firstname, telephone, email],
         "bookings": [],
         "invoice": None
     }
     
-    print(f"Customer {name} has been added with ID {customer_id}.")
+    print(f"Customer {firstname, lastname} has been added with ID {customer_id}.")
     input("\nPress Enter to continue.")
 
 
