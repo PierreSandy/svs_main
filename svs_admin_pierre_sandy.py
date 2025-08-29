@@ -1,6 +1,6 @@
 # ============== Selwyn Vet Services MAIN PROGRAM ==============
 # Student Name: Pierre D Sandy 
-# Student ID : 
+# Student ID : 1160455
 # NOTE: Make sure your two files are in the same folder
 # =================================================================================
 
@@ -8,8 +8,6 @@ from svs_data import col_invoices,col_customers,col_treatments,col_services,db_c
                     # spb_data.py contains the data
 import datetime     # We areusing date times for this assessment, and it is
                     # available in the column_output() fn, so do not delete this line
-
- # REMOVE this line once yourts have some function code (a function must have one line of code, so this temporary line keeps Python happy so you can run the code)
 
 
 # function to display the menu
